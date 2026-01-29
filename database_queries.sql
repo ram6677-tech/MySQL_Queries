@@ -107,4 +107,25 @@ FROM courses c
 LEFT JOIN enrollments e ON c.course_id = e.course_id
 GROUP BY c.course_id, c.course_name;
 
+CREATE TABLE books (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(150),
+    author VARCHAR(100),
+    category VARCHAR(50)
+);
+CREATE TABLE members (
+    member_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    phone VARCHAR(15),
+    email VARCHAR(100)
+);
+CREATE TABLE borrowed_books (
+    borrow_id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT,
+    book_id INT,
+    borrow_date DATE,
+    return_date DATE,
+    FOREIGN KEY (member_id) REFERENCES members(member_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
 
