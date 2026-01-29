@@ -54,3 +54,57 @@ SELECT name, DATE_FORMAT(join_date, '%d-%m-%y') AS formatted_date FROM employees
 SELECT name, DATE_FORMAT(join_date, '%m-%d-%y') AS formatted_date FROM employees;
 SELECT name, DATE_FORMAT(join_date, '%y-%m-%d') AS formatted_date FROM employees;
 
+CREATE DATABASE school;
+USE school;
+
+CREATE TABLE students (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY AUTO_INCREMENT,
+    course_name VARCHAR(100)
+);
+
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    course_id INT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+INSERT INTO students (name) VALUES
+('Ravi'),
+('Anita'),
+('Kiran'),
+('Sita');
+
+INSERT INTO courses (course_name) VALUES
+('Java'),
+('Python'),
+('MySQL');
+
+INSERT INTO enrollments (student_id, course_id) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(3, 3);
+
+SELECT s.name AS student_name, c.course_name
+FROM students s
+INNER JOIN enrollments e ON s.student_id = e.student_id
+INNER JOIN courses c ON e.course_id = c.course_id;
+
+SELECT s.name
+FROM students s
+LEFT JOIN enrollments e ON s.student_id = e.student_id
+WHERE e.student_id IS NULL;
+
+SELECT c.course_name, COUNT(e.student_id) AS total_students
+FROM courses c
+LEFT JOIN enrollments e ON c.course_id = e.course_id
+GROUP BY c.course_id, c.course_name;
+
+
